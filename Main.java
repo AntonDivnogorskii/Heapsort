@@ -21,59 +21,48 @@ public class Main {
     // функция с которой программа начинает работу
     public static void main(String []args){
 
-        System.out.printf("*****************************************************************\n" +
-                "* The program was completed by:\t\t\t\t\t\t\t\t\t*\n" +
-                "* \tStudent - Divnogorskii Anton Andreevich\t\t\t\t\t\t*\n" +
-                "* \tGroup - 433\t\t\t\t\t\t\t\t\t\t\t\t\t*\n" +
-                "* \tAbout program - software solution to implement heap sort\t*\n" +
-                "*****************************************************************\n\n");
-
         //общие переменные
         int endOrNew = -1;
-        ArrayList<Integer> array = new ArrayList<>();
-        ArrayList<Integer> sortArray = new ArrayList<>();
-        VerificationFunctions checkNumber = new VerificationFunctions();
-        HeapSort newSort = new HeapSort();
         int fileOrRandom = 0;
         int sizeOfArray = 0;
+        boolean arrayIsSorted = false;
+
+        //основные объекты
+        ArrayList<Integer> array = new ArrayList<>();
+        ArrayList<Integer> sortArray = new ArrayList<>();
+        InputFunctions howToFill = new InputFunctions();
+        VerificationFunctions checkNumber = new VerificationFunctions();
+        HeapSort newSort = new HeapSort();
+        OutputFunctions output = new OutputFunctions();
+
+        //вывод приветсвия
+        output.greetingText();
 
         do{
-            //выбор заполнения массива
-            System.out.printf("# меню вариантов заполнения массива #\n" +
-                    "* 1 - заполнить массив рандомными числами\n" +
-                    "* 2 - загрузить данные с файла\n" +
-                    "# Выбирете способ заполнения массива: ");
+            //вывод меню с вариантами заполнения массива
+            output.dataFillingMenu();
+
+            //выбор варианта заполнения массива
             fileOrRandom = checkNumber.getNumber();
+
 
             switch(fileOrRandom) {
 
-                //Кейс с заполнением рандомными числами
                 case 1:
-                    System.out.printf("\nВведите размер массива: ");
 
-                    do {
-                        sizeOfArray = checkNumber.getNumber();
+                    output.messageInstructions();
 
-                        if (sizeOfArray > 0)
-                            break;
+                    break;
 
-                        System.out.printf("\nРазмер массива обязательно должен быть больше 0!\n" +
-                                "Повторите попытку: ");
-                    }while (true);
+                //Кейс с заполнением рандомными числами
+                case 2:
 
-                    //заполнение массива рандомными числами
-                    for(int i = 0; i < sizeOfArray; i++){
-                        array.add((int)(Math.random() * 100));
-                    }
-
-                    System.out.printf("\nМассив был заполнен следующими числами:\n");
-                    System.out.println(array);
-                    System.out.printf("\n");
+                    sizeOfArray = howToFill.fillingArrayRandomValues(array, sizeOfArray);
 
                     break;
 
                 //кейс с заполнением данных с файла
-                case 2:
+                case 3:
                     String pathToFile = "";
                     Scanner scan = new Scanner(System.in);
 
@@ -89,10 +78,6 @@ public class Main {
 
             //вывод отсортированного массива
             sortArray = newSort.sort(array, sizeOfArray);
-            System.out.printf("Отсортированный массив:\n");
-            System.out.println(sortArray);
-            System.out.printf("\n");
-
 
         }while(endOrNew != 0);
 
