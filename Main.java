@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Main {
+
     // функция с которой программа начинает работу
-    public static void main(String []args){
+    public static void main(String []args) throws FileNotFoundException {
 
         //общие переменные
         int endOrNew = -1;
-        int fileOrRandom = 0;
+        int fileOrRandom;
         int sizeOfArray = 0;
         boolean arrayIsSorted = false;
 
@@ -46,29 +47,35 @@ public class Main {
             fileOrRandom = checkNumber.getNumber();
 
 
+
+
             switch(fileOrRandom) {
 
+                //кейс с запполнением данных с клавиатуры
                 case 1:
 
-                    output.messageInstructions();
 
                     break;
 
                 //Кейс с заполнением рандомными числами
                 case 2:
 
+                    //получение размера массива и заполнение его рандомными чисами
                     sizeOfArray = howToFill.fillingArrayRandomValues(array, sizeOfArray);
 
                     break;
 
                 //кейс с заполнением данных с файла
                 case 3:
-                    String pathToFile = "";
-                    Scanner scan = new Scanner(System.in);
 
-                    System.out.printf("Введите путь до файла: ");
-                    pathToFile = scan.nextLine();
+                    //получение размера массива и заполнение его данными с файла
+                    sizeOfArray = howToFill.inputFromFile(array);
 
+                    if(sizeOfArray == -1){
+                        //здесь код чтобы прога не выводила размер массива и его данные
+                    }
+
+                    output.arrayOutput(array, false);
                     break;
 
                 default:
@@ -77,7 +84,7 @@ public class Main {
             }
 
             //вывод отсортированного массива
-            sortArray = newSort.sort(array, sizeOfArray);
+            //sortArray = newSort.sort(array, sizeOfArray);
 
         }while(endOrNew != 0);
 

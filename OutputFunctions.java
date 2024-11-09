@@ -35,10 +35,26 @@ public class OutputFunctions {
     }
 
     //функция выводящая предупреждающее сообщение
-    public void messageInstructions(){
+    public void keyboardInputMessage(){
         System.out.printf("\nВнимание, чтобы заполнить массив с клавиатуры\n" +
                 "введите числа друг за другом через запятую!\n" +
                 "\t\tПРИМЕР: 1, 2, 3, 4...\n");
     }
 
+    public void messageInputFromFile(){
+        System.out.println("\nВнимание, чтобы программа считала данные с файла, \n" +
+                "они должны быть записаны в соответствующем формате!\n" +
+                "\t\tФормат данных: 1, 2, 3, 4...\n");
+    }
+
+    public static void incorrectDataInTheFile(String[] numbers, int index) {
+        System.out.println("\nВ файле могут лежать только числа!\n" +
+                "Элемент \"" + numbers[index] + "\" под номером: " + (index + 1) + " не был считан!\n");
+    }
+
+    public static void selectionWithIncorrectData(){
+        System.out.println("\nЕсли вы исправили данные в файле и хотите считать их повторно - введите 1\n" +
+                "Если вы хотите считать данные с другого файла - введите 2\n" +
+                "Если вы хотите воспользоваться другим способом ввода данных - введите 3");
+    }
 }
