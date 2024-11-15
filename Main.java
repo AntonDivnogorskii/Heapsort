@@ -24,58 +24,57 @@ public class Main {
 
         //общие переменные
         int endOrNew = -1;
-        int fileOrRandom;
+        int fileOrRandom = 0;
+        int saveData = 0, howToSaveData = 0;
         int sizeOfArray = 0;
-        boolean arrayIsSorted = false;
 
         //основные объекты
         ArrayList<Integer> array = new ArrayList<>();
         ArrayList<Integer> sortArray = new ArrayList<>();
         InputFunctions howToFill = new InputFunctions();
-        VerificationFunctions checkNumber = new VerificationFunctions();
+        VerificationFunctions check = new VerificationFunctions();
         HeapSort newSort = new HeapSort();
-        OutputFunctions output = new OutputFunctions();
+        MessageFunctions message = new MessageFunctions();
+        //InputOption input;
 
-        //вывод приветсвия
-        output.greetingText();
+        //вывод приветствия
+        message.greetingText();
 
         do{
             //вывод меню с вариантами заполнения массива
-            output.dataFillingMenu();
+            message.dataFillingMenu();
 
             //выбор варианта заполнения массива
-            fileOrRandom = checkNumber.getNumber();
+            fileOrRandom = check.getNumber();
 
-
+//            input = InputOption.valueOf(String.valueOf(fileOrRandom));
 
 
             switch(fileOrRandom) {
-
-                //кейс с запполнением данных с клавиатуры
+                //кейс с заполнением данных с клавиатуры
                 case 1:
 
-
+                    //получение размера массива и заполнение его числами введёнными с клавиатуры
+                    sizeOfArray = howToFill.manualInput(array, sizeOfArray);
                     break;
 
                 //Кейс с заполнением рандомными числами
                 case 2:
 
-                    //получение размера массива и заполнение его рандомными чисами
+                    //получение размера массива и заполнение его рандомными числами
                     sizeOfArray = howToFill.fillingArrayRandomValues(array, sizeOfArray);
-
                     break;
 
                 //кейс с заполнением данных с файла
                 case 3:
 
                     //получение размера массива и заполнение его данными с файла
-                    sizeOfArray = howToFill.inputFromFile(array);
+                    //sizeOfArray = howToFill.inputFromFile(array);
 
                     if(sizeOfArray == -1){
                         //здесь код чтобы прога не выводила размер массива и его данные
                     }
 
-                    output.arrayOutput(array, false);
                     break;
 
                 default:
@@ -83,8 +82,45 @@ public class Main {
                     break;
             }
 
-            //вывод отсортированного массива
-            //sortArray = newSort.sort(array, sizeOfArray);
+            //вывод массивов
+            if(sizeOfArray > 0) {
+                //вывод не отсортированного массива
+                message.arrayOutput(array, false);
+                //сортировка массива и его вывод
+                sortArray = newSort.sort(array, sizeOfArray);
+                message.arrayOutput(sortArray, true);
+            }else{
+                System.out.println("""
+                        На стадии заполнения произошли ошибки.
+                        Пожалуйста, повторите попытку ввода.
+                        """);
+                endOrNew = 1;
+            }
+
+            //выбор сохранять данные или нет
+            System.out.print("""
+                    \nЖелаете сохранить полученный результат?
+                    (1 - да, любое другое число - нет)
+                    Ваш выбор:\s""");
+            saveData = check.getNumber();
+
+            //сохранение данных
+            if(saveData == 1){
+                message.dataSaveMessage();
+                howToSaveData = check.getNumber();
+
+                switch(howToSaveData){
+                    case 1:
+
+                        break;
+
+                    case 2:
+                        break;
+
+                    default:
+                        break;
+                }
+            }
 
         }while(endOrNew != 0);
 

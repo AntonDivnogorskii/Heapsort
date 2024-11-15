@@ -12,7 +12,7 @@ public class HeapSort {
         // Один за другим извлекаем элементы из кучи
         for (int i = sizeOfArray - 1; i >= 0; i--) {
             // Перемещаем текущий корень в конец
-            int temp = array.get(0);
+            int temp = array.getFirst();
             array.set(0, array.get(i));
             array.set(i, temp);
 
