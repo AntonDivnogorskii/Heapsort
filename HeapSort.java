@@ -1,8 +1,10 @@
+package Sorting;
+
 import java.util.ArrayList;
 
 public class HeapSort {
 
-    // Реализация пирамидальной сортировки на Java
+    // Реализация пирамидальной сортировки
     public ArrayList<Integer> sort(ArrayList<Integer> array, int sizeOfArray) {
 
         // Построение кучи (перегруппируем массив)

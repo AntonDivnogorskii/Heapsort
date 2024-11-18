@@ -1,3 +1,7 @@
+package Sorting;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -20,8 +24,7 @@ public class InputFunctions {
             System.out.print("Введите данные для сортировки: ");
             userLine = scan.nextLine();
             userNumbers = userLine.split(", ");
-
-        } while (checkInput.inputDataBad(userNumbers));
+        }while(checkInput.inputDataBad(userNumbers));
 
         //заполняем массив считанными данными
         for(int i = 0; i < userNumbers.length; i++){
@@ -60,81 +63,64 @@ public class InputFunctions {
         return sizeOfArray;
     }
 
-    public int inputFromFile(ArrayList<Integer> array, int sizeOfArray){
+    //функция заполняет массив данными из файла
+    public int inputFromFile(ArrayList<Integer> array, int sizeOfArray) throws FileNotFoundException {
 
+        //основные объекты
+        Scanner scan = new Scanner(System.in);
+        Sorting.MessageFunctions warning = new Sorting.MessageFunctions();
+        Sorting.VerificationFunctions checkInput = new Sorting.VerificationFunctions();
+
+        //основные переменные
+        String pathToFile = "";
+        String[] userData;
+        int userChoice = -1;
+
+        //вывод инструкции
+        warning.inputMessage();
+
+        //цикл позволяет вводить новые файлы сколько угодно
+        do {
+            //ввод пути до файла
+            do {
+                System.out.print("\nВведите путь до существующего файла: ");
+                pathToFile = scan.nextLine();
+
+                if (checkInput.fileExists(pathToFile))
+                    break;
+
+                System.out.printf("Файла с путём: \"" + pathToFile + "\" не найдено!\n");
+            } while (true);
+
+            //открываем файл по введённому пути
+            File file = new File(pathToFile);
+            //создаём поток ввода для файла
+            Scanner scanFile = new Scanner(file);
+            //считываем все данные с файла в строку line
+            String lineOfNumbers = scanFile.nextLine();
+            //парсим данные по ", " и отправляем в массив
+            userData = lineOfNumbers.split(", ");
+
+            //проверка данных в файле
+            if (checkInput.inputDataBad(userData)) {
+                //вывод меню и выбор пользователя
+                warning.messageWithIncorrectData();
+                userChoice = checkInput.getNumber();
+            }else{
+                userChoice = -1;
+                //заполняем массив считанными данными
+                for(int i = 0; i < userData.length; i++){
+                    array.add(i, Integer.parseInt(userData[i]));
+                }
+                //обновляем размер массива
+                sizeOfArray = userData.length;
+            }
+
+            //закрытие потоков ввода
+            scanFile.close();
+
+        }while(userChoice == 1);
 
         return sizeOfArray;
     }
-
-//    //на доработке!!!!!!!!!
-//    //функция заполняет массив данными из файла
-//    public int inputFromFile(ArrayList<Integer> array) throws FileNotFoundException {
-//        //блок в зависимости от ОС выбирает разделитель
-//        //String separator = File.separator;
-//
-//        //основные объекты
-//        Scanner scan = new Scanner(System.in);
-//        OutputFunctions warning = new OutputFunctions();
-//        VerificationFunctions check = new VerificationFunctions();
-//
-//        //основные переменные
-//        int sizeOfArray = 0;
-//        boolean dataIsBad = true;
-//        int userChoice = -1;
-//        String pathToFile = "";
-//
-//        //вывод инструкции
-//        warning.messageInputFromFile();
-//
-//        //цикл позволяющий вводить новый путь для файла
-//        do {
-//            System.out.printf("Введите путь до файла: ");
-//
-//            //ввод пути до файла и попытка его открыть
-//            while (true) {
-//                pathToFile = scan.nextLine();
-//                //если путь правильный -> пропускаем
-//                if (VerificationFunctions.fileExists(pathToFile)) {
-//                    break;
-//                }
-//                System.out.printf("Файла с путём: \"" + pathToFile + "\" не найдено!\n" +
-//                        "Пожалуйста введите новый путь: ");
-//            }
-//
-//            //цикл позволяющий несколько раз проверять данные одного файла
-//            do {
-//                //проверка данных в файле
-//                if (VerificationFunctions.badDataFromFile(pathToFile)) {
-//                    //вывод меню и выбор пользователя
-//                    warning.selectionWithIncorrectData();
-//                    do {
-//                        System.out.print("Вы можете выбрать только существующий пункт (1, 2 или 3): ");
-//                        userChoice = scan.nextInt();
-//                    } while (userChoice != 1 && userChoice != 2 && userChoice != 3);
-//
-//                    //если пользователь захотел воспользоваться другим способом ввода данных
-//                    if(userChoice == 3)
-//                        return -1;
-//
-//                    //чистим путь до файла и отправляем на повторный ввод
-//                    if(userChoice == 2)
-//                        pathToFile = null;
-//                }else {
-//                    //если данные в порядке -> пропускаем
-//                    userChoice = 4;
-//                }
-//            }while(userChoice == 1);
-//        }while(userChoice == 2);
-//
-//        //циклом заполняем наш массив считанным данными
-//
-//        InputFunctions.inputDataFromFile(pathToFile, array);
-//
-//        sizeOfArray = array.size();
-//
-//        scan.close();
-//
-//        return sizeOfArray;
-//    }
-
 }

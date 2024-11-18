@@ -1,3 +1,7 @@
+package Sorting;
+
 public enum InputOption {
-    MANUAL, FROMFILE, RANDOM
+    MANUAL,
+    FILE,
+    RANDOM
 }
